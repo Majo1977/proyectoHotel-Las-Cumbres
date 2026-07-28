@@ -1,3 +1,5 @@
+package proyectoHotel;
+
 public abstract class Habitacion {
 
     // ****Atributos****

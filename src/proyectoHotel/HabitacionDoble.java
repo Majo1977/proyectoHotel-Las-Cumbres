@@ -1,3 +1,5 @@
+package proyectoHotel;
+
 public class HabitacionDoble extends Habitacion {
 
     // ****Atributos****

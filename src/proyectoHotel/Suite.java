@@ -1,15 +1,20 @@
-public class HabitacionSimple extends Habitacion {
+package proyectoHotel;
+
+public class Suite extends Habitacion {
 
     // ****Atributos****
     private String[] caracteristicasEspecificas;
 
     // ****Constructor****
-    public HabitacionSimple(int numero, EstadoHabitacion estado, double precioBase) {
+    public Suite(int numero, EstadoHabitacion estado, double precioBase) {
         super(numero, estado, precioBase);
         this.caracteristicasEspecificas = new String[]{
-            "Cama individual",
-            "Baño privado",
-            "TV"
+            "Cama king size",
+            "Baño de lujo",
+            "TV 55\"",
+            "Aire acondicionado",
+            "Jacuzzi",
+            "Vista a las sierras"
         };
     }
 
@@ -19,11 +24,11 @@ public class HabitacionSimple extends Habitacion {
     public double calcularTarifaSegunTemporada(Temporada temporada) {
         double factor;
         if (temporada == Temporada.ALTA) {
-            factor = 1.5;
+            factor = 2.0;
         } else if (temporada == Temporada.MEDIA) {
-            factor = 1.2;
+            factor = 1.5;
         } else {
-            factor = 1.0;
+            factor = 1.2;
         }
         return getPrecioBase() * factor;
     }
@@ -31,7 +36,7 @@ public class HabitacionSimple extends Habitacion {
     @Override
     public String obtenerDatos() {
         StringBuilder datos = new StringBuilder();
-        datos.append("Tipo: Habitación Simple\n");
+        datos.append("Tipo: Suite\n");
         datos.append(super.obtenerDatos());
         datos.append("\nCaracterísticas:");
         for (int i = 0; i < caracteristicasEspecificas.length; i++) {
