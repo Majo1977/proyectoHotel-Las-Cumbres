@@ -37,23 +37,9 @@ public class Reserva {
     private double calcularTarifaTotal() {
         double tarifaBase = habitacion.getPrecioBase();
         int noches = calcularNoches();
-        double factorTemporada = obtenerFactorTemporada();
-        
-        return tarifaBase * noches * factorTemporada;
-    }
+        double factorTemporada = temporada.getFactorRecargo();
 
-    // Obtener factor de recargo según temporada
-    private double obtenerFactorTemporada() {
-        switch (temporada) {
-            case ALTA:
-                return 1.5; // 50% recargo
-            case MEDIA:
-                return 1.2; // 20% recargo
-            case BAJA:
-                return 1.0; // sin recargo
-            default:
-                return 1.0;
-        }
+        return tarifaBase * noches * factorTemporada;
     }
 
     // Calcular cantidad de noches

@@ -22,15 +22,7 @@ public class Suite extends Habitacion {
 
     @Override
     public double calcularTarifaSegunTemporada(Temporada temporada) {
-        double factor;
-        if (temporada == Temporada.ALTA) {
-            factor = 2.0;
-        } else if (temporada == Temporada.MEDIA) {
-            factor = 1.5;
-        } else {
-            factor = 1.2;
-        }
-        return getPrecioBase() * factor;
+        return getPrecioBase() * temporada.getFactorRecargo();
     }
 
     @Override
