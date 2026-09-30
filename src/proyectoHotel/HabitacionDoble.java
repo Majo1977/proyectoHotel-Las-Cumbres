@@ -24,6 +24,11 @@ public class HabitacionDoble extends Habitacion {
     }
 
     @Override
+    public String obtenerTipo() {
+        return "Doble";
+    }
+
+    @Override
     public String obtenerDatos() {
         StringBuilder datos = new StringBuilder();
         datos.append("Tipo: Habitación Doble\n");

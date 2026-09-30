@@ -26,6 +26,11 @@ public class Suite extends Habitacion {
     }
 
     @Override
+    public String obtenerTipo() {
+        return "Suite";
+    }
+
+    @Override
     public String obtenerDatos() {
         StringBuilder datos = new StringBuilder();
         datos.append("Tipo: Suite\n");

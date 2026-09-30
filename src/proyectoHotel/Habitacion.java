@@ -31,6 +31,9 @@ public abstract class Habitacion {
     // Método abstracto que cada subclase implementa según su tipo
     public abstract double calcularTarifaSegunTemporada(Temporada temporada);
 
+    // Método abstracto que devuelve el tipo de habitación
+    public abstract String obtenerTipo();
+
     // ****Getters y Setters****
 
     public int getNumero() { return numero; }

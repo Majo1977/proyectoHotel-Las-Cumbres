@@ -228,9 +228,12 @@ public class SistemaHotel {
 
         boolean hayDisponibles = false;
         for (int i = 0; i < cantHabitaciones; i++) {
-            if (habitaciones[i].getEstado() == EstadoHabitacion.DISPONIBLE) {
-                lista.append("\n" + habitaciones[i].obtenerDatos());
-                lista.append("\n-------------------------------------");
+            // Guardamos el elemento del array en una variable auxiliar
+            // para no repetir habitaciones[i] varias veces
+            Habitacion h = habitaciones[i];
+            if (h.getEstado() == EstadoHabitacion.DISPONIBLE) {
+                lista.append("\nHabitación " + h.getNumero() + " - " + h.obtenerTipo() +
+                        " - $" + String.format("%.2f", h.getPrecioBase()) + " por noche");
                 hayDisponibles = true;
             }
         }
