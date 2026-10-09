@@ -1,5 +1,8 @@
-package proyectoHotel;
+package proyectoHotel.reservas;
 
+import proyectoHotel.enums.Temporada;
+import proyectoHotel.habitaciones.Habitacion;
+import proyectoHotel.personas.Huesped;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 

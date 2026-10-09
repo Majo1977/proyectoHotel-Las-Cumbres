@@ -3,6 +3,14 @@ package proyectoHotel;
 
 import inputOuput.*;
 import javax.swing.JOptionPane;
+import proyectoHotel.enums.EstadoHabitacion;
+import proyectoHotel.enums.Temporada;
+import proyectoHotel.habitaciones.Habitacion;
+import proyectoHotel.habitaciones.HabitacionDoble;
+import proyectoHotel.habitaciones.HabitacionSimple;
+import proyectoHotel.habitaciones.Suite;
+import proyectoHotel.personas.Empleado;
+import proyectoHotel.personas.Huesped;
 
 public class SistemaHotel {
 
@@ -13,10 +21,16 @@ public class SistemaHotel {
     static Habitacion[] habitaciones = new Habitacion[20];
     static int cantHabitaciones = 0;
 
+    static Empleado[] empleados = new Empleado[10];
+    static int cantEmpleados = 0;
+
     public static void main(String[] args) {
 
         // Cargamos habitaciones predefinidas del hotel
         inicializarHabitaciones();
+
+        // Cargamos empleados predefinidos (no se registran desde el menú)
+        inicializarEmpleados();
 
         int opcion;
 
@@ -35,6 +49,9 @@ public class SistemaHotel {
                     "--- RESERVAS Y TARIFAS ---\n" +
                     "6. Mostrar tarifas por tipo de habitación\n" +
                     "7. Mostrar tipos y temporadas disponibles\n" +
+                    "--- GESTIÓN DE EMPLEADOS ---\n" +
+                    "8. Listar empleados ordenados por apellido\n" +
+                    "9. Buscar empleado por apellido\n" +
                     "=====================================\n" +
                     "0. Salir";
 
@@ -79,13 +96,19 @@ public class SistemaHotel {
                 case 7:
                     mostrarTiposYTemporadas();
                     break;
+                case 8:
+                    listarEmpleadosPorApellido();
+                    break;
+                case 9:
+                    buscarEmpleadoPorApellido();
+                    break;
                 case 0:
                     Salida.mMensaje("¡Hasta luego! Gracias por usar el sistema.",
                             "Salir");
                     break;
                 default:
                     if (opcion != -1) {
-                        Salida.mError("Opción no válida. Ingrese un número del 0 al 7.", "Error");
+                        Salida.mError("Opción no válida. Ingrese un número del 0 al 9.", "Error");
                     }
                     break;
             }
@@ -106,6 +129,57 @@ public class SistemaHotel {
         habitaciones[6] = new Suite(301, EstadoHabitacion.DISPONIBLE, 15000);
         habitaciones[7] = new Suite(302, EstadoHabitacion.OCUPADA, 15000);
         cantHabitaciones = 8;
+    }
+
+    /*--------------------------------------------------------- */
+    /* Inicializa los empleados predefinidos del hotel          */
+    /*--------------------------------------------------------- */
+    private static void inicializarEmpleados() {
+        empleados[0] = new Empleado("Laura", "Gómez", "30111222", "E001", "Recepcionista");
+        empleados[1] = new Empleado("Martín", "Álvarez", "28333444", "E002", "Gerente");
+        empleados[2] = new Empleado("Sofía", "Pérez", "35555666", "E003", "Camarera");
+        empleados[3] = new Empleado("Diego", "Benítez", "32777888", "E004", "Conserje");
+        empleados[4] = new Empleado("Carla", "Díaz", "31999000", "E005", "Cocinera");
+        cantEmpleados = 5;
+    }
+
+    /*--------------------------------------------------------- */
+    /* Lista los empleados ordenados alfabéticamente por apellido */
+    /*--------------------------------------------------------- */
+    private static void listarEmpleadosPorApellido() {
+        // Ordenamos por apellido antes de mostrar
+        ordenarEmpleadosPorApellido();
+
+        StringBuilder lista = new StringBuilder();
+        lista.append("=====================================\n");
+        lista.append("   EMPLEADOS (ORDEN POR APELLIDO)    \n");
+        lista.append("=====================================\n");
+
+        for (int i = 0; i < cantEmpleados; i++) {
+            lista.append("\n" + empleados[i].obtenerDatos());
+            lista.append("\n-------------------------------------");
+        }
+
+        Salida.mMensaje(lista.toString(), "Empleados");
+    }
+
+    /*--------------------------------------------------------- */
+    /* Busca un empleado por apellido                           */
+    /*--------------------------------------------------------- */
+    private static void buscarEmpleadoPorApellido() {
+        String apellido = MiIngreso.pedirString("Ingrese el apellido del empleado:", "Buscar Empleado");
+        if (MiIngreso.cancelado) return;
+
+        // La búsqueda binaria necesita el array ordenado por apellido
+        ordenarEmpleadosPorApellido();
+        Empleado encontrado = buscarEmpleado(apellido.trim());
+
+        if (encontrado == null) {
+            Salida.mAdvertencia("No se encontró ningún empleado con el apellido " + apellido + ".",
+                    "Sin resultados");
+        } else {
+            Salida.mMensaje(encontrado.obtenerDatos(), "Empleado encontrado");
+        }
     }
 
     /*--------------------------------------------------------- */
@@ -335,6 +409,43 @@ public class SistemaHotel {
             }
         }
         return null;
+    }
+
+    // Búsqueda binaria: el array debe estar ordenado por apellido.
+    // Devuelve el empleado encontrado o null si no está.
+    private static Empleado buscarEmpleado(String apellidoBuscar) {
+        int inicio = 0;
+        int fin = cantEmpleados - 1;
+
+        while (inicio <= fin) {
+            int mitad = (inicio + fin) / 2;
+            int comparacion = empleados[mitad].getApellido().compareToIgnoreCase(apellidoBuscar);
+
+            if (comparacion == 0) {
+                return empleados[mitad];
+            } else if (comparacion > 0) {
+                fin = mitad - 1;
+            } else {
+                inicio = mitad + 1;
+            }
+        }
+        return null;
+    }
+
+    // Ordenamiento por apellido (utilizamos método burbuja)
+    private static void ordenarEmpleadosPorApellido() {
+        boolean interruptor = true;
+        for (int i = 0; i < cantEmpleados - 1 && interruptor; i++) {
+            interruptor = false;
+            for (int j = 0; j < cantEmpleados - i - 1; j++) {
+                if (empleados[j].getApellido().compareToIgnoreCase(empleados[j + 1].getApellido()) > 0) {
+                    interruptor = true;
+                    Empleado aux = empleados[j];
+                    empleados[j] = empleados[j + 1];
+                    empleados[j + 1] = aux;
+                }
+            }
+        }
     }
 
     private static Habitacion buscarHabitacionPorNumero(int numero) {

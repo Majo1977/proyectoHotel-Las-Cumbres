@@ -1,4 +1,7 @@
-package proyectoHotel;
+package proyectoHotel.habitaciones;
+
+import proyectoHotel.enums.EstadoHabitacion;
+import proyectoHotel.enums.Temporada;
 
 public abstract class Habitacion {
 

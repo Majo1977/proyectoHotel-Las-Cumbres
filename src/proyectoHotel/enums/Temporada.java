@@ -1,4 +1,4 @@
-package proyectoHotel; 
+package proyectoHotel.enums;
 
 //Casco Cristian, Castro María José 
 

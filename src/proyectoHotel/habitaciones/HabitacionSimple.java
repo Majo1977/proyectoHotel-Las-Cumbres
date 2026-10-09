@@ -1,20 +1,20 @@
-package proyectoHotel;
+package proyectoHotel.habitaciones;
 
-public class Suite extends Habitacion {
+import proyectoHotel.enums.EstadoHabitacion;
+import proyectoHotel.enums.Temporada;
+
+public class HabitacionSimple extends Habitacion {
 
     // ****Atributos****
     private String[] caracteristicasEspecificas;
 
     // ****Constructor****
-    public Suite(int numero, EstadoHabitacion estado, double precioBase) {
+    public HabitacionSimple(int numero, EstadoHabitacion estado, double precioBase) {
         super(numero, estado, precioBase);
         this.caracteristicasEspecificas = new String[]{
-            "Cama king size",
-            "Baño de lujo",
-            "TV 55\"",
-            "Aire acondicionado",
-            "Jacuzzi",
-            "Vista a las sierras"
+            "Cama individual",
+            "Baño privado",
+            "TV"
         };
     }
 
@@ -27,13 +27,13 @@ public class Suite extends Habitacion {
 
     @Override
     public String obtenerTipo() {
-        return "Suite";
+        return "Simple";
     }
 
     @Override
     public String obtenerDatos() {
         StringBuilder datos = new StringBuilder();
-        datos.append("Tipo: Suite\n");
+        datos.append("Tipo: Habitación Simple\n");
         datos.append(super.obtenerDatos());
         datos.append("\nCaracterísticas:");
         for (int i = 0; i < caracteristicasEspecificas.length; i++) {

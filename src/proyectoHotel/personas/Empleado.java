@@ -1,4 +1,4 @@
-package proyectoHotel;
+package proyectoHotel.personas;
 
 public class Empleado extends Persona {
 
